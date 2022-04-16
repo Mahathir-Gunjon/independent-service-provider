@@ -7,7 +7,7 @@ const Header = () => {
         <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" className='py-4 sticky-top'>
             <Container>
                 <Navbar.Brand className='text-white fs-4 fw-bolder'><span className='text-danger'>Sz</span> Photograps</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle className='text-danger' aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto">
                         <CustomLink className='text-decoration-none px-3 fs-5 fw-normal' to="/">Home</CustomLink>
