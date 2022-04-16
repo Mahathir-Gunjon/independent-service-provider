@@ -1,35 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import './Login.css'
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+
+    const [userDetails, setUserDetails] = useState({
+        email: '',
+        password: ''
+    });
+
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+        others: ''
+    });
 
     const [
         signInWithEmailAndPassword,
         user,
         loading,
         hookError,
-      ] = useSignInWithEmailAndPassword(auth);
+    ] = useSignInWithEmailAndPassword(auth);
 
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
-        emailRegex.test(e.target.value) ? setEmail(e.target.value) : setError('Invalid Email');
+        const emailValue = emailRegex.test(e.target.value);
+        if (emailValue) {
+            setUserDetails({ ...userDetails, email: e.target.value });
+            setErrors({ ...errors, email: '' });
+        }
+        else {
+            setErrors({ ...errors, email: 'Invalid Email' });
+            setUserDetails({ ...userDetails, email: '' });
+        }
     }
 
     const handlePassword = (e) => {
         const passwordRegex = /.{6,}/;
-        passwordRegex.test(e.target.value) ? setPassword(e.target.value) : setError('Invalid Password');
-        setPassword(e.target.value);
+        const passwordValue = passwordRegex.test(e.target.value);
+        if (passwordValue) {
+            setUserDetails({ ...userDetails, password: e.target.value });
+            setErrors({ ...errors, password: '' });
+        }
+        else {
+            setErrors({ ...errors, password: 'Atleast provide 6 characters' });
+            setUserDetails({ ...userDetails, password: '' });
+        }
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        signInWithEmailAndPassword(email, password);
+        signInWithEmailAndPassword(userDetails.email, userDetails.password);
     }
+
+    // useEffect(() => {
+
+    // },[hookError]);
+
     return (
         <div className='hero-section bg-black text-white'>
             <div className='container'>
@@ -38,13 +66,15 @@ const Login = () => {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" />
+                        {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control onChange={handlePassword} type="password" placeholder="Password" />
+                        {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                     </Form.Group>
-                    {error && <p className='text-danger'>{error}</p>}
-                    {hookError && <p className='text-danger'>{hookError?.message}</p>}
+                    {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}
+                    {loading && <Form.Text className="text-white">Loading...</Form.Text>}
                     <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Login</button>
                 </Form>
             </div>
