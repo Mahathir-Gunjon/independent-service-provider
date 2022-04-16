@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Link } from 'react-router-dom';
 import auth from '../../../firebase.init';
+import './Signup.css'
 
 const Signup = () => {
 
@@ -76,6 +78,13 @@ const Signup = () => {
                     {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}
                     {loading && <Form.Text className="text-white">Loading...</Form.Text>}
                     <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Login</button>
+                    <p className='text-center'>Already signed up?  <Link className='text-decoration-none text-danger' to='/login'>Login now</Link></p>
+
+                    <div className='d-flex mt-3'>
+                        <p className='lines'></p>
+                        <p>Or</p>
+                        <p className='lines'></p>
+                    </div>
                 </Form>
             </div>
         </div>
