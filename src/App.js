@@ -4,6 +4,7 @@ import About from './Pages/About/About';
 import RequireAuth from './Pages/Auth/RequireAuth';
 import Blog from './Pages/Blogs/Blog';
 import Checkout from './Pages/Checkout/Checkout';
+import Footer from './Pages/Footer/Footer';
 import Header from './Pages/Header/Header';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login and SignUp/Login/Login';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />  
         <Route path="*" element={<Notfound />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }

@@ -1,3 +1,13 @@
 .service-bg{
-    box-shadow: 0px -10px #bb2d3b , -0px 10px rgb(0, 0, 0);
+    box-shadow: 0px -10px #bb2d3b , -0px 10px rgb(219, 198, 198);
+}
+.servuce-bg{
+    background-image: url(https://images.squarespace-cdn.com/content/v1/5229b80ee4b0dbbcb4a83168/1551017257824-VG6LYDKUCDY0WK99C44B/fuji+x+gear+setup);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.service-overly{
+    background-color: rgba(0, 0, 0, 0.9);
 }
