@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import './Signup.css'
 
@@ -51,14 +51,31 @@ const Signup = () => {
             setUserDetails({ ...userDetails, password: '' });
         }
     }
+    const handleConfirmPassword = (e) => {
+
+        if (e.target.value === userDetails.password) {
+            setUserDetails({ ...userDetails, confirmPassword: e.target.value });
+            setErrors({ ...errors, password: '' });
+        }
+        else {
+            setErrors({ ...errors, password: 'not matched' });
+            setUserDetails({ ...userDetails, confirmPassword: '' });
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         createUserWithEmailAndPassword(userDetails.email, userDetails.password);
     }
 
-    // useEffect(() => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location?.state?.from?.pathname || '/';
 
-    // },[hookError]);
+    useEffect(() => {
+        if (user) {
+            navigate(from)
+        }
+    },[user]);
 
     return (
         <div className='hero-section bg-black text-white'>
@@ -72,7 +89,12 @@ const Signup = () => {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" />
+                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" id='password'/>
+                        {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" id='confirm-password'/>
                         {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                     </Form.Group>
                     {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}

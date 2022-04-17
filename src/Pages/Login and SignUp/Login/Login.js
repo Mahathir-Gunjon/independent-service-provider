@@ -50,6 +50,7 @@ const Login = () => {
             setUserDetails({ ...userDetails, password: '' });
         }
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(userDetails.email, userDetails.password);
