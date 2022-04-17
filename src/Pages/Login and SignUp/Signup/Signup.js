@@ -24,7 +24,7 @@ const Signup = () => {
         user,
         loading,
         hookError,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
 
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
@@ -87,14 +87,14 @@ const Signup = () => {
                         <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" />
                         {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3" controlId="formPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" id='password'/>
+                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" required/>
                         {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3" controlId="formConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" id='confirm-password'/>
+                        <Form.Control onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" required/>
                         {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                     </Form.Group>
                     {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}

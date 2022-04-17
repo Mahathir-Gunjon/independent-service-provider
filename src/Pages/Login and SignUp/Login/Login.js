@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import './Login.css'
 
@@ -46,7 +46,7 @@ const Login = () => {
             setErrors({ ...errors, password: '' });
         }
         else {
-            setErrors({ ...errors, password: 'Atleast provide 6 characters' });
+            setErrors({ ...errors, password: 'At least provide 6 characters' });
             setUserDetails({ ...userDetails, password: '' });
         }
     }
@@ -56,9 +56,15 @@ const Login = () => {
         signInWithEmailAndPassword(userDetails.email, userDetails.password);
     }
 
-    // useEffect(() => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location?.state?.from?.pathname || '/';
 
-    // },[hookError]);
+    useEffect(() => {
+        if (user) {
+            navigate(from)
+        }
+    },[user]);
 
     return (
         <div className='hero-section bg-black text-white'>
