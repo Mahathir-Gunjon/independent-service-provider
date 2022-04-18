@@ -1,6 +1,7 @@
 import React from 'react';
 import main from '../../Images/hero.jpg';
 import BestCaptures from '../BestCaptures/BestCaptures';
+import CallToActionBlog from '../CallToActionBlog/CallToActionBlog';
 import Services from '../Services/Services';
 import './Home.css'
 
@@ -26,6 +27,7 @@ const Home = () => {
             </section>
             <Services />
             <BestCaptures/>
+            <CallToActionBlog/>
         </>
 
     );
