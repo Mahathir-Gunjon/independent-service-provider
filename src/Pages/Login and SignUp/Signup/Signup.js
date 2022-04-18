@@ -20,14 +20,14 @@ const Signup = () => {
         password: '',
         others: ''
     });
-
+    // create user with email and password
     const [
         createUserWithEmailAndPassword,
         user,
         loading,
         hookError,
     ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
-
+    // email here
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
         const emailValue = emailRegex.test(e.target.value);
@@ -40,7 +40,7 @@ const Signup = () => {
             setUserDetails({ ...userDetails, email: '' });
         }
     }
-
+    // password here
     const handlePassword = (e) => {
         const passwordRegex = /.{6,}/;
         const passwordValue = passwordRegex.test(e.target.value);
@@ -53,6 +53,7 @@ const Signup = () => {
             setUserDetails({ ...userDetails, password: '' });
         }
     }
+    // confirm password
     const handleConfirmPassword = (e) => {
 
         if (e.target.value === userDetails.password) {
@@ -64,9 +65,9 @@ const Signup = () => {
             setUserDetails({ ...userDetails, confirmPassword: '' });
         }
     }
+    // from here
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const agree = document.getElementById('agree').checked;
         createUserWithEmailAndPassword(userDetails.email, userDetails.password);
     }
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ const Signup = () => {
     useEffect(() => {
         if (user) {
             navigate(from)
+            // toast.success for success;
             toast('🦄 Wow so easy!', {
                 position: "top-center",
                 autoClose: 5000,

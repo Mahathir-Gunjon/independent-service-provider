@@ -20,13 +20,14 @@ const Login = () => {
         password: '',
         others: ''
     });
-
+    // login user with email and password
     const [
         signInWithEmailAndPassword,
         user,
         loading,
         hookError,
     ] = useSignInWithEmailAndPassword(auth);
+    // login user with google
     const [
         signInWithGoogle,
         googleUser,
@@ -34,8 +35,9 @@ const Login = () => {
         GoogleError
     ] = useSignInWithGoogle(auth);
 
+    // reset password
     const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
-
+    // email here
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
         const emailValue = emailRegex.test(e.target.value);
@@ -48,7 +50,7 @@ const Login = () => {
             setUserDetails({ ...userDetails, email: '' });
         }
     }
-
+    // password here
     const handlePassword = (e) => {
         const passwordRegex = /.{6,}/;
         const passwordValue = passwordRegex.test(e.target.value);
@@ -61,12 +63,12 @@ const Login = () => {
             setUserDetails({ ...userDetails, password: '' });
         }
     }
-
+    // login user
     const handleSubmit = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(userDetails.email, userDetails.password);
     }
-
+    //  reset password condition
     const resetPassword = async () => {
         if (userDetails.email) {
             await sendPasswordResetEmail(userDetails.email);
@@ -77,7 +79,7 @@ const Login = () => {
         }
 
     }
-
+    // redirect to checkout page
     const navigate = useNavigate();
     const location = useLocation();
     const from = location?.state?.from?.pathname || '/';

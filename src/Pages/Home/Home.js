@@ -25,8 +25,11 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            {/* service */}
             <Services />
+            {/* best clickc */}
             <BestCaptures/>
+            {/* call to action */}
             <CallToActionBlog/>
         </>
 
