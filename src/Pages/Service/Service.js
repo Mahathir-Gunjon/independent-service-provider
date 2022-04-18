@@ -15,8 +15,8 @@ const Service = ({ service }) => {
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">{description}</p>
-                            <p className="card-text"><small className="text-muted">{price}</small></p>
-                            <Link to='/checkout' className='btn btn-danger shadow-lg'>Book Now</Link>
+                            <p className="card-text"><small className="text-dark"><span className='text-warning'>$</span>{price}</small></p>
+                            <Link to='/checkout' className='btn btn-danger btn-sm shadow-lg'>Book Now</Link>
                         </div>
                     </div>
                 </div>
