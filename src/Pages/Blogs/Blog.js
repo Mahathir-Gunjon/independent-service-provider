@@ -15,7 +15,7 @@ const Blog = () => {
                         <div className="col-md-8">
                             <div className="card-body">
                                 <h5 className="card-title">Difference between authorization and authentication</h5>
-                                <p className="card-text">
+                                <div className="card-text">
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-md-6">
@@ -33,7 +33,7 @@ const Blog = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>

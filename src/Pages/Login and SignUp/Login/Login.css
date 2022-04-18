@@ -2,3 +2,8 @@
     box-shadow: 60px -46px #bb2d3b , -60px 40px rgb(255, 255, 255);
     margin-top: 100px;
 }
+.lines{
+    width: 100%;
+    height: 1px;
+    background: #ccc;
+}

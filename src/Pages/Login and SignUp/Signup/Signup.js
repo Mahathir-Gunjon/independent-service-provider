@@ -84,7 +84,7 @@ const Signup = () => {
                     <h2 className='text-danger mb-3 text-center'>Signup</h2>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" />
+                        <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" required/>
                         {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formPassword">
@@ -99,14 +99,8 @@ const Signup = () => {
                     </Form.Group>
                     {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}
                     {loading && <Form.Text className="text-white">Loading...</Form.Text>}
-                    <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Login</button>
+                    <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Sign Up</button>
                     <p className='text-center'>Already signed up?  <Link className='text-decoration-none text-danger' to='/login'>Login now</Link></p>
-
-                    <div className='d-flex mt-3'>
-                        <p className='lines'></p>
-                        <p>Or</p>
-                        <p className='lines'></p>
-                    </div>
                 </Form>
             </div>
         </div>

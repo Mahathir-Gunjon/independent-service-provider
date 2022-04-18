@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import './Login.css'
@@ -24,6 +24,14 @@ const Login = () => {
         loading,
         hookError,
     ] = useSignInWithEmailAndPassword(auth);
+    const [
+        signInWithGoogle,
+        googleUser,
+        googleLoading,
+        GoogleError
+    ] = useSignInWithGoogle(auth);
+
+    const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
@@ -56,6 +64,11 @@ const Login = () => {
         signInWithEmailAndPassword(userDetails.email, userDetails.password);
     }
 
+    const resetPassword = async() => {
+        await sendPasswordResetEmail(userDetails.email);
+          alert('Sent email');
+    }
+
     const navigate = useNavigate();
     const location = useLocation();
     const from = location?.state?.from?.pathname || '/';
@@ -64,28 +77,42 @@ const Login = () => {
         if (user) {
             navigate(from)
         }
-    },[user]);
+    }, [user, googleUser]);
+
+    const error = hookError || GoogleError;
+    const allLoading = loading || googleLoading;
 
     return (
         <div className='hero-section bg-black text-white'>
             <div className='container'>
-                <Form onSubmit={handleSubmit} className='bg-dark mx-auto px-4 py-5 from-bg rounded-3' style={{ width: '400px' }}>
-                    <h2 className='text-danger mb-3 text-center'>Login</h2>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" />
-                        {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" />
-                        {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
-                    </Form.Group>
-                    {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}
-                    {loading && <Form.Text className="text-white">Loading...</Form.Text>}
-                    <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Login</button>
-                    <p className='text-center'>Don't have an account?  <Link className='text-decoration-none text-danger' to='/signup'>Signup now</Link></p>
-                </Form>
+                <div className='bg-dark mx-auto px-4 py-5 from-bg rounded-3' style={{ width: '400px' }}>
+                    <Form onSubmit={handleSubmit}>
+                        <h2 className='text-danger mb-3 text-center'>Sign in</h2>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" required />
+                            {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control onChange={handlePassword} type="password" placeholder="Password" required />
+                            {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
+                        </Form.Group>
+                        {error && <Form.Text className="text-danger">{error?.message}</Form.Text>}
+                        {allLoading && <Form.Text className="text-white">Loading...</Form.Text>}
+                        <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Sign in</button>
+                        <p className='text-center'>Don't have an account?  <Link className='text-decoration-none text-danger' to='/signup'>Signup now</Link></p>
+                        <p className='text-center'><Link className='text-decoration-none text-danger' onClick={resetPassword} to='/home'>Forget password?</Link></p>
+                    </Form>
+                    <div style={{ display: 'flex' }}>
+                        <p className='lines'></p>
+                        <p>or</p>
+                        <p className='lines'></p>
+                    </div>
+                    <div className='d-flex justify-content-center mt-1'>
+                        <button className='btn btn-lg btn-danger w-100' onClick={() => signInWithGoogle()}>Google Sign in</button>
+                    </div>
+                </div>
             </div>
         </div>
     );
