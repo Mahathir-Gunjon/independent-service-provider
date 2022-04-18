@@ -17,7 +17,7 @@ const Services = () => {
             <div className="service-overly">
                 <div className="py-5">
                     <div className='container'>
-                        <h1 className='text-danger text-center display-3 py-5'> Our Services</h1>
+                        <h1 className='text-danger text-center display-3 py-5'>Services</h1>
                         <div className="row g-md-4">
                             {
                                 services.map(service => <Service

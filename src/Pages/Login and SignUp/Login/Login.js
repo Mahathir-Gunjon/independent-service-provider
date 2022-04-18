@@ -3,7 +3,10 @@ import { Form } from 'react-bootstrap';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
+import Loading from '../Loading';
 import './Login.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -64,9 +67,15 @@ const Login = () => {
         signInWithEmailAndPassword(userDetails.email, userDetails.password);
     }
 
-    const resetPassword = async() => {
-        await sendPasswordResetEmail(userDetails.email);
-          alert('Sent email');
+    const resetPassword = async () => {
+        if (userDetails.email) {
+            await sendPasswordResetEmail(userDetails.email);
+            toast('Sent email');
+        }
+        else {
+            toast('Please enter email');
+        }
+
     }
 
     const navigate = useNavigate();
@@ -99,10 +108,10 @@ const Login = () => {
                             {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                         </Form.Group>
                         {error && <Form.Text className="text-danger">{error?.message}</Form.Text>}
-                        {allLoading && <Form.Text className="text-white">Loading...</Form.Text>}
+                        {allLoading && <Form.Text className="text-white"><Loading /></Form.Text>}
                         <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Sign in</button>
                         <p className='text-center'>Don't have an account?  <Link className='text-decoration-none text-danger' to='/signup'>Signup now</Link></p>
-                        <p className='text-center'><Link className='text-decoration-none text-danger' onClick={resetPassword} to='/home'>Forget password?</Link></p>
+                        <p className='text-center'>Forget password?<button className='btn btn-link text-decoration-none text-danger' onClick={resetPassword}>Reset</button></p>
                     </Form>
                     <div style={{ display: 'flex' }}>
                         <p className='lines'></p>
@@ -113,6 +122,17 @@ const Login = () => {
                         <button className='btn btn-lg btn-danger w-100' onClick={() => signInWithGoogle()}>Google Sign in</button>
                     </div>
                 </div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </div>
         </div>
     );

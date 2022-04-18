@@ -4,6 +4,8 @@ import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import './Signup.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
 
@@ -24,7 +26,7 @@ const Signup = () => {
         user,
         loading,
         hookError,
-    ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
     const handleEmail = (e) => {
         const emailRegex = /\S+@\S+\.\S+/;
@@ -47,7 +49,7 @@ const Signup = () => {
             setErrors({ ...errors, password: '' });
         }
         else {
-            setErrors({ ...errors, password: 'Atleast provide 6 characters' });
+            setErrors({ ...errors, password: 'At least provide 6 characters' });
             setUserDetails({ ...userDetails, password: '' });
         }
     }
@@ -64,9 +66,9 @@ const Signup = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        // const agree = document.getElementById('agree').checked;
         createUserWithEmailAndPassword(userDetails.email, userDetails.password);
     }
-
     const navigate = useNavigate();
     const location = useLocation();
     const from = location?.state?.from?.pathname || '/';
@@ -74,8 +76,17 @@ const Signup = () => {
     useEffect(() => {
         if (user) {
             navigate(from)
+            toast('🦄 Wow so easy!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         }
-    },[user]);
+    }, [user]);
 
     return (
         <div className='hero-section bg-black text-white'>
@@ -84,24 +95,38 @@ const Signup = () => {
                     <h2 className='text-danger mb-3 text-center'>Signup</h2>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" required/>
+                        <Form.Control onChange={handleEmail} type="email" placeholder="Enter email" required />
                         {errors?.email && <Form.Text className="text-danger">{errors?.email}</Form.Text>}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" required/>
+                        <Form.Control onChange={handlePassword} type="password" placeholder="Password" required />
                         {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" required/>
+                        <Form.Control onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" required />
                         {errors?.password && <Form.Text className="text-danger">{errors?.password}</Form.Text>}
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Check type="checkbox" label="Accept terms and conditions" />
                     </Form.Group>
                     {hookError && <Form.Text className="text-danger">{hookError?.message}</Form.Text>}
                     {loading && <Form.Text className="text-white">Loading...</Form.Text>}
                     <button className='btn btn-lg btn-outline-danger w-100 mt-4' type="submit">Sign Up</button>
                     <p className='text-center'>Already signed up?  <Link className='text-decoration-none text-danger' to='/login'>Login now</Link></p>
                 </Form>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </div>
         </div>
     );
