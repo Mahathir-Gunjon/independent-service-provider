@@ -1,5 +1,6 @@
 import React from 'react';
 import main from '../../Images/hero.jpg';
+import BestCaptures from '../BestCaptures/BestCaptures';
 import Services from '../Services/Services';
 import './Home.css'
 
@@ -24,6 +25,7 @@ const Home = () => {
                 </div>
             </section>
             <Services />
+            <BestCaptures/>
         </>
 
     );
